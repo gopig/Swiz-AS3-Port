@@ -8,9 +8,6 @@ package
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.utils.getDefinitionByName;
-	
-	import org.as3commons.bytecode.reflect.ByteCodeType;
-	
 	/**
 	 * ...
 	 * @author CaTFooD
@@ -65,7 +62,6 @@ package
 		
 		private function startup():void 
 		{
-			ByteCodeType.fromLoader(this.loaderInfo);
 			var mainClass:Class = getDefinitionByName("SwizDemoAppAS3") as Class;
 			addChild(new mainClass() as DisplayObject);
 		}

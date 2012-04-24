@@ -247,13 +247,14 @@ package org.swizframework.aop.framework
 
             // ByteCodeType.fromLoader( FlexGlobals.topLevelApplication.stage.loaderInfo );
 			var _applicationDomain:ApplicationDomain =LoaderInfo( Object( swiz.dispatcher ).systemManager.loaderInfo).applicationDomain;
+			// you must use try catch to handle the fromByteArray. it throw errors sometimes
 			try
 			{
 	            ByteCodeType.fromByteArray(( Object( swiz.dispatcher ).systemManager.loaderInfo.bytes),_applicationDomain);
 			} 
 			catch(error:Error) 
 			{
-				trace(error.message);
+				//trace(error.message);
 			}
 
             // create proxy factory

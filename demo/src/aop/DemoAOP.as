@@ -4,10 +4,11 @@ package aop
 	
 	import org.swizframework.aop.support.IMethodInvocation;
 	import org.swizframework.reflection.BaseMetadataTag;
+	import org.swizframework.utils.logging.SwizLogger;
 
 	public class DemoAOP
 	{
-		[After( annotation = "AsyncBenchmark" )]
+		private static const LOG : SwizLogger = SwizLogger.getLogger( aop.DemoAOP);
 		
 		/**
 		 * Performa the benchmark on regular methods.
@@ -17,15 +18,14 @@ package aop
 		 * @return The method return.
 		 *
 		 */
+		[After( annotation = "AsyncBenchmark" )]
 		public function performBenchmark ( invocation : IMethodInvocation, metadata : BaseMetadataTag ) : * {
-			trace("5656565654646464")
+			LOG.debug("aop function ---> performBenchmark")
 			var method : org.swizframework.aop.support.Method = invocation.getMethod();
 			var methodName : String = method.getMethodName();
 			var startTimer : int = getTimer();
+			//this will invoke the target function again. so you will see "call Service is invoked" twice.
 			var ret : * = invocation.proceed();
-			
-			//this.printBenchmark( methodName, startTimer );
-			
 			return ret;
 		}
 	}

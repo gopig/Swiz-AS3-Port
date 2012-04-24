@@ -16,15 +16,13 @@ package
 	
 	import models.UserModel;
 	
-	import mx.containers.ApplicationControlBar;
-	
-	import org.as3commons.bytecode.reflect.ByteCodeType;
 	import org.swizframework.core.Bean;
 	import org.swizframework.core.BeanFactory;
 	import org.swizframework.core.BeanProvider;
 	import org.swizframework.core.Swiz;
 	import org.swizframework.core.SwizConfig;
 	import org.swizframework.events.SwizEvent;
+	import org.swizframework.utils.logging.SwizLogger;
 	import org.swizframework.utils.logging.SwizTraceTarget;
 	
 	import views.SwizView;
@@ -33,14 +31,10 @@ package
 	[Frame(factoryClass="Preloader")]
 	public class SwizDemoAppAS3 extends Sprite
 	{
-		public static var LOADER_INFO:LoaderInfo;
-		public static var INSTANCE:Object;
+		private static const LOG : SwizLogger = SwizLogger.getLogger( SwizDemoAppAS3 );
 		private var bp:BeanProvider;
 		private var cf:SwizConfig;
-		public var systemManager:SwizDemoAppAS3;
 		private var swiz:Swiz;
-
-		private var view:SwizView;
 		public function SwizDemoAppAS3()
 		{
 			
@@ -59,21 +53,15 @@ package
 			
 			bp = new BeanProvider( [new Bean(new ApplicationController(),"applicationController"),new Bean(new UserModel(),"userModel") ] );		
 			
-			/**
-			 * Support for custom metadata processors is probably the coolest feature in Swiz 1.0.0
-			 * Definitely check out their source to see how easy they are to implement.
-			 * Swiz uses this exact mechanism to implement its built in metadata tags like Autowire, Mediate and VirtualBean.
-			 */
-			//cp = [ new ClockProcessor(), new RandomProcessor() ];
 			cf = new SwizConfig();
 			cf.eventPackages = ["flash.events","org.swizframework.events"];
 			cf.viewPackages = ["views"];
 				
+			
 			/**
 			 * Create an instance of Swiz and pass in dependencies and custom processors.
 			 * SwizConfig is not yet implemented in this release but will be soon.
 			 */
-			systemManager = this;
 			swiz = new Swiz( Preloader.instance );
 			swiz.config = cf;
 			swiz.beanProviders = [bp];
@@ -81,27 +69,17 @@ package
 			swiz.loggingTargets = [new SwizTraceTarget()];
 			// manually intialize Swiz. this is done automatically when defining Swiz in MXML.
 			swiz.init();
-			Preloader.instance.stage.addEventListener(MouseEvent.CLICK,onMouseClick);
+			swiz.dispatcher.addEventListener(SwizEvent.LOAD_COMPLETE,onLoadComplete);
 		}
 		
 		protected function onLoadComplete(event:SwizEvent):void
 		{
-			// TODO Auto-generated method stub
-			trace("----------------------------------------------Created");
-			//onMouseClick(null);
-		}
-		
-		protected function onMouseClick(event:MouseEvent):void
-		{
-			trace("clcclclccl");
-//			view = new SwizView();
-//			addChild(view);
-//			var bean:Bean = swiz.beanFactory.getBeanByName("applicationController");
-//			var controller:ApplicationController = bean.source;
-//			controller.callService();
+			LOG.debug("swiz load complete");
+			//now will dispatch a COMPLETE event, and ApplicatioinController will handle it.
+			//at the sametime, DemoAOP has a metadata trigger 
 			this.dispatchEvent(new Event(Event.COMPLETE,true));
-			// TODO Auto-generated method stub
-			//controller.onApplicationComplete(null);
+			//then we add a children to check if injection works fine.
+			addChild(new SwizView());
 		}
 	}
 }
