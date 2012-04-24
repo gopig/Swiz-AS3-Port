@@ -21,7 +21,6 @@ https://github.com/wlepinski/benchmark-aspect-swiz-aop 这个项目组成。
 附送给高端成就控的附加资料	
 		
 	swiz的aop的原理：http://www.as3commons.org/as3-commons-bytecode/proxy.html
-
 	其实aop说白了就是动态的代理类生成，as3Common的bytecode已经内置原生的动态代理生成，用它再做个轮子估计还更好
 		
 		
