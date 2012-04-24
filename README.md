@@ -13,7 +13,8 @@ https://github.com/wlepinski/benchmark-aspect-swiz-aop 这个项目组成。
     
 感兴趣的玩家可以参照着这个结构稍微做点东西了。
 	
-	我是不打算用它做项目了，DI有robotlegs，aop因为在初始化的时候，要把整个swf的类给拿到，	里面涉及到ABC bytecode的解析，N多循环，在这个处理的时候会卡一下挺讨厌的，在fp没有多线程之前估计不会考虑。
+	我是不打算用它做项目了，DI有robotlegs，aop因为在初始化的时候，要把整个swf的类给拿到
+	里面涉及到ABC bytecode的解析，N多循环，在这个处理的时候会卡一下挺讨厌的，在fp没有多线程之前估计不会考虑。
 		
 针对卡一下这个问题也有解决方案，大概就是把程序库尽可能地减少，然后再去改改swiz里面的autoProcesser,让它针对某个loaderinfo去处理。
 	
@@ -21,7 +22,7 @@ https://github.com/wlepinski/benchmark-aspect-swiz-aop 这个项目组成。
 附送给高端成就控的附加资料	
 		
 	swiz的aop的原理：http://www.as3commons.org/as3-commons-bytecode/proxy.html
-	// 
+
 	其实aop说白了就是动态的代理类生成，as3Common的bytecode已经内置原生的动态代理生成，用它再做个轮子估计还更好
 		
 		
